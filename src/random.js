@@ -1,16 +1,33 @@
-function randomU32(state) {
-  state = BigInt(state);
+let generator;
 
-  state ^= state >> BigInt(12);
-  state ^= state << BigInt(25);
-  state ^= state >> BigInt(27);
-  return Number((state * BigInt("0x2545F4914F6CDD1D")) >> BigInt(32));
+function randomU32(seed) {
+	generator = generator || new Xorshift32(seed);
+	return generator.next()
 }
 
-function randomF32(state) {
-  let u32 = randomU32(state);
-
-  return (u32 >> 8) / 16777216.0;
+function randomF32(seed) {
+	generator = generator || new Xorshift32(seed);
+	return generator.nextFloat()
 }
-
 module.exports = { randomF32, randomU32 };
+
+
+
+
+class Xorshift32 {
+	constructor(seed) {
+		this.state = seed;
+	}
+
+	next() {
+		this.state ^= this.state << 13;
+		this.state ^= this.state >>> 17;
+		this.state ^= this.state << 5;
+		this.state &= 0xFFFFFFFF;
+		return this.state;
+	}
+
+	nextFloat() {
+		return (this.next() >>> 0) / 0xFFFFFFFF;
+	}
+}
