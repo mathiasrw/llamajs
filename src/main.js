@@ -46,18 +46,18 @@ async function main() {
   if (topp < 0.0 || 1.0 < topp) topp = 0.9;
   if (steps < 0) steps = 0;
 
-  if (true) {
-    console.log(51, "config", {
-      checkpointPath,
-      tokenizerPath,
-      temperature,
-      topp,
-      steps,
-      prompt,
-      rngSeed,
-      mode,
-    });
-  }
+	console.error({
+		"config": {
+			checkpointPath,
+			tokenizerPath,
+			temperature,
+			topp,
+			steps,
+			prompt,
+			rngSeed,
+			mode,
+		}
+	});
 
   const transformer = {};
   await buildTransformer(transformer, checkpointPath);

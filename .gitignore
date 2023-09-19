@@ -1,3 +1,7 @@
 models/*
 bak/*
 bak2/*
+*.log
+llama2c/
+node_modules/
+*.bin
